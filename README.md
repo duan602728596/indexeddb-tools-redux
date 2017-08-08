@@ -15,6 +15,14 @@ import { getAction } from 'indexeddb-tools-redux';
 ```javascript
 import { getAction } from 'indexeddb-tools-redux';
 
+/**
+ * 获取数据
+ * @param {String} name           : 连接的数据库名
+ * @param {Number} version        : 数据库版本号
+ * @param {String} objectStoreName: ObjectStore名字
+ * @param {Function} successAction: 成功的Action
+ * @param {Function} failAction   : 失败的Action
+ */
 export const action = getAction({
   ... // 参数
 });
