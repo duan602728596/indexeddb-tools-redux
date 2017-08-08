@@ -1,7 +1,7 @@
 ((factory)=>{
 
   if(typeof module === "object" && typeof module.exports === 'object'){
-    const IndexedDB = global.require('indexeddb-tools');
+    const IndexedDB = require('indexeddb-tools');
     module.exports = factory(IndexedDB);
   }else{
     const IndexedDB = window.IndexedDB;
@@ -27,13 +27,14 @@
         return new Promise((resolve, reject)=>{
           IndexedDB(name, version, {
             success: function(eTarget, event){
+              const _this = this;
               const store = this.getObjectStore(objectStoreName);
               store.get(data, function(result, event){
                 if(successAction){
                   dispatch(successAction(result));
                 }
-                this.close();
                 resolve(result);
+                _this.close();
               });
             }
           });
@@ -65,11 +66,11 @@
             success: function(eTarget, event){
               const store = this.getObjectStore(objectStoreName);
               store.add(data);
-              this.close();
               if(successAction){
                 dispatch(successAction(data));
               }
               resolve(data);
+              this.close();
             }
           });
         }).catch((err)=>{
@@ -103,8 +104,8 @@
               if(successAction){
                 dispatch(successAction(data));
               }
-              this.close();
               resolve(data);
+              this.close();
             }
           });
         }).catch((err)=>{
@@ -139,6 +140,7 @@
                 dispatch(successAction(data));
               }
               resolve(data);
+              this.close();
             }
           });
         }).catch((err)=>{
@@ -165,11 +167,12 @@
           IndexedDB(name, version, {
             success: function(eTarget, event){
               const store = this.getObjectStore(objectStoreName);
-              store.cleat();
+              store.clear();
               if(successAction){
                 dispatch(successAction());
               }
               resolve();
+              this.close();
             }
           });
         }).catch((err)=>{
@@ -199,6 +202,7 @@
         return new Promise((resolve, reject)=>{
           IndexedDB(name, version, {
             success: function(eTarget, event){
+              const _this = this;
               const store = this.getObjectStore(objectStoreName);
               const arg = [indexName];
               if(range) arg.push(range);
@@ -214,6 +218,7 @@
                     dispatch(successAction(data));
                   }
                   resolve(resArr);
+                  _this.close();
                 }
               });
             }

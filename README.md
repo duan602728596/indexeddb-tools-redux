@@ -62,7 +62,7 @@ class Demo extend Component{
     })
 
     deleteAction({
-      data:  // {String | Number | Array} 删除的数据
+      data   // {String | Number | Array} 删除的数据
     })
 
     clearAction()   // 无需传参
