@@ -39,6 +39,7 @@
             }
           });
         }).catch((err)=>{
+          console.error(err);
           if(failAction){
             dispatch(failAction());
           }
@@ -74,6 +75,7 @@
             }
           });
         }).catch((err)=>{
+          console.error(err);
           if(failAction){
             dispatch(failAction(data));
           }
@@ -109,6 +111,7 @@
             }
           });
         }).catch((err)=>{
+          console.error(err);
           if(failAction){
             dispatch(failAction(data));
           }
@@ -144,6 +147,7 @@
             }
           });
         }).catch((err)=>{
+          console.error(err);
           if(failAction){
             dispatch(failAction(data));
           }
@@ -176,6 +180,7 @@
             }
           });
         }).catch((err)=>{
+          console.error(err);
           if(failAction){
             dispatch(failAction(data));
           }
@@ -224,6 +229,7 @@
             }
           });
         }).catch((err)=>{
+          console.error(err);
           if(failAction){
             dispatch(failAction());
           }
