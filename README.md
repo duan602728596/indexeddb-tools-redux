@@ -16,7 +16,6 @@ import { getAction } from 'indexeddb-tools-redux';
 import { getAction } from 'indexeddb-tools-redux';
 
 /**
- * 获取数据
  * @param {String} name           : 连接的数据库名
  * @param {Number} version        : 数据库版本号
  * @param {String} objectStoreName: ObjectStore名字
