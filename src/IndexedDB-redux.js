@@ -218,7 +218,6 @@
                   resArr.push(result.value);
                   result.continue();
                 }else{
-                  this.close();
                   if(successAction){
                     dispatch(successAction(data));
                   }
