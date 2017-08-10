@@ -1,6 +1,6 @@
 {
   "name": "indexeddb-tools-redux",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "src/IndexedDB-redux.js",
   "keywords": [
     "indexeddb",

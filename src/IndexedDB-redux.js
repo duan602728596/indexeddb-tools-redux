@@ -219,7 +219,7 @@
                   result.continue();
                 }else{
                   if(successAction){
-                    dispatch(successAction(data));
+                    dispatch(successAction(resArr));
                   }
                   resolve(resArr);
                   _this.close();
