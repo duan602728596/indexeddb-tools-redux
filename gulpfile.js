@@ -26,8 +26,7 @@ function _ecma(){
             useBuiltIns: false,
             uglify: false
           }
-        ],
-        'flow'
+        ]
       ],
     }))
     .pipe(utf8convert())
