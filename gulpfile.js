@@ -7,10 +7,28 @@ const uglify = require('gulp-uglify');
 const dirname = __dirname;
 
 
-function _ecma6(){
+function _ecma(){
   return gulp.src(`${ dirname }/src/*.js`)
     .pipe(babel({
-      presets: ['es2015']
+      cacheDirectory: true,
+      presets: [
+        [
+          'env',
+          {
+            targets: {
+              ie: 11,
+              edge: 12,
+              chrome: 40,
+              firefox: 40
+            },
+            debug: false,
+            modules: false,
+            useBuiltIns: false,
+            uglify: false
+          }
+        ],
+        'flow'
+      ],
     }))
     .pipe(utf8convert())
     .pipe(bom())
@@ -19,5 +37,5 @@ function _ecma6(){
 }
 
 gulp.task('default', gulp.series(
-  gulp.parallel(_ecma6)
+  gulp.parallel(_ecma)
 ));
