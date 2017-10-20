@@ -28,9 +28,7 @@
     "babel-core": "^7.0.0-beta.3",
     "babel-preset-env": "^2.0.0-beta.2",
     "gulp": "gulpjs/gulp.git#4.0",
-    "gulp-babel": "^6.1.2",
-    "gulp-bom": "^1.0.0",
-    "gulp-uglify": "^3.0.0",
-    "gulp-utf8-convert": "^0.0.7"
+    "gulp-babel": "^7.0.0",
+    "gulp-uglify": "^3.0.0"
   }
 }
