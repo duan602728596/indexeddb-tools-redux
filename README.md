@@ -16,11 +16,11 @@ import { getAction } from 'indexeddb-tools-redux';
 import { getAction } from 'indexeddb-tools-redux';
 
 /**
- * @param {String} name           : 连接的数据库名
- * @param {Number} version        : 数据库版本号
- * @param {String} objectStoreName: ObjectStore名字
- * @param {Function} successAction: 成功的Action
- * @param {Function} failAction   : 失败的Action
+ * @param { string } name           : 连接的数据库名
+ * @param { number } version        : 数据库版本号
+ * @param { string } objectStoreName: ObjectStore名字
+ * @param { Function } successAction: 成功的Action
+ * @param { Function } failAction   : 失败的Action
  */
 export const action = getAction({
   ... // 参数
@@ -35,19 +35,19 @@ export const action = getAction({
 * clearAction: 清除数据
 * cursorAction: 根据索引查询  
 
-传递参数{Object}：
-* {String} name: 连接的数据库名
-* {Number} version: 数据库版本号
-* {String} objectStoreName: ObjectStore名字
-* {Function} successAction: 成功的Action
-* {Function} failAction: 失败的Action
+传递参数{ Object }：
+* { string } name: 连接的数据库名
+* { number } version: 数据库版本号
+* { string } objectStoreName: ObjectStore名字
+* { Function } successAction: 成功的Action
+* { Function } failAction: 失败的Action
 
 ## 调用dispatch
 ```javascript
 import React, { Component } from 'react';
 import { getAction, addAction, putAction, deleteAction, clearAction, cursorAction } from './render';
 
-class Demo extend Component{
+class Demo extends Component{
   componentWillMount(){
     getAction({
       data   // {String | Number} 查询的主键键值 
@@ -59,13 +59,13 @@ class Demo extend Component{
 
     putAction({
       data   // {Object | Array} 更新的数据
-    })
+    });
 
     deleteAction({
       data   // {String | Number | Array} 删除的数据
-    })
+    });
 
-    clearAction()   // 无需传参
+    clearAction();  // 无需传参
 
     cursorAction({
       indexName,    // 索引
