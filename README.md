@@ -5,39 +5,50 @@ IndexedDB：[https://github.com/duan602728596/IndexedDB](https://github.com/duan
 
 ## 引入方法
 ```javascript
-window.IndexedDB_Redux;
-// 或
-import { getAction } from 'indexeddb-tools-redux';
+import IndexedDBRedux from 'indexeddb-tools-redux';
 ```
-在使用前，需要使用**redux-thunk**中间件。
+在使用前，需要注册**redux-thunk**中间件。
+
+## 初始化
+```javascript
+import IndexedDB from 'indexeddb-tools';
+import IndexedDBRedux from 'indexeddb-tools-redux';
+
+IndexedDB(name, version, callbackObject = {
+  success: fn1,         // 数据库连接成功的回调函数
+  error: fn2,           // 数据库连接失败的回调函数
+  upgradeneeded: fn3    // 数据库首次创建成功的回调函数 
+});
+
+const db = new IndexedDBRedux(name, version);
+```
 
 ## 创建action
 ```javascript
-import { getAction } from 'indexeddb-tools-redux';
-
+const db = new IndexedDBRedux(dbName, version);
 /**
- * @param { string } name           : 连接的数据库名
- * @param { number } version        : 数据库版本号
+ * 参数 
  * @param { string } objectStoreName: ObjectStore名字
  * @param { Function } successAction: 成功的Action
  * @param { Function } failAction   : 失败的Action
  */
-export const action = getAction({
-  ... // 参数
+export const getAction = db.getAction({
+  // 参数
+  objectStoreName,
+  successAction,
+  failActio
 });
 ```
 
 ## 方法
-* getAction: 查询数据
-* addAction: 添加数据
-* putAction: 更新数据
-* deleteAction: 删除数据
-* clearAction: 清除数据
-* cursorAction: 根据索引查询  
+* db.getAction: 查询数据
+* db.addAction: 添加数据
+* db.putAction: 更新数据
+* db.deleteAction: 删除数据
+* db.clearAction: 清除数据
+* db.cursorAction: 根据索引查询  
 
 传递参数{ Object }：
-* { string } name: 连接的数据库名
-* { number } version: 数据库版本号
 * { string } objectStoreName: ObjectStore名字
 * { Function } successAction: 成功的Action
 * { Function } failAction: 失败的Action
@@ -45,35 +56,85 @@ export const action = getAction({
 ## 调用dispatch
 ```javascript
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { getAction, addAction, putAction, deleteAction, clearAction, cursorAction } from './render';
 
+const state = (state)=>{
+  return {};
+};
+
+const dispatch = (dispatch)=>({
+  action: bindActionCreators({
+    getAction, 
+    addAction, 
+    putAction, 
+    deleteAction,
+    clearAction, 
+    cursorAction
+  }, dispatch)
+});
+
+@connect(state, dispatch)
 class Demo extends Component{
   componentWillMount(){
-    getAction({
-      data   // {String | Number} 查询的主键键值 
+   
+    this.props.action.getAction({
+      query,   // { string | number } 查询的主键键值
+      ...      // 其他你想要传递的数据 
     });
 
-    addAction({
-      data   // {Object | Array} 添加的数据 
+    this.props.action.addAction({
+      data,    // { Object | Array } 添加的数据 
+      ...      // 其他你想要传递的数据
     });
 
-    putAction({
-      data   // {Object | Array} 更新的数据
+    this.props.action.putAction({
+      data,    // { Object | Array } 更新的数据
+      ...      // 其他你想要传递的数据
     });
 
-    deleteAction({
-      data   // {String | Number | Array} 删除的数据
+    this.props.action.deleteAction({
+      query,   // { string | number | Array } 删除的数据
+      ...      // 其他你想要传递的数据
     });
 
-    clearAction();  // 无需传参
+    this.props.action.clearAction(
+      ...      // 其他你想要传递的数据
+    );
 
-    cursorAction({
-      indexName,    // 索引
-      range         // 游标范围
-    })
+    this.props.action.cursorAction({
+      query: {
+        indexName,    // 索引
+        range         // 游标范围
+      },
+      ...      // 其他你想要传递的数据
+    });
 
   }
 }
+```
+在reducer函数内可以获取
+```javascript
+function reducers(state = {}, action){
+  const result = action.result;   // action.result为数据库获取数据成功后，获得到的数据
+  // action.xxx                   // action内也包含你传递的其他数据        
+  
+  switch(action.type){
+    case 'TYPE_1':
+      return {
+        ...state,
+        data_1: action.result
+      };
+    case 'TYPE_2':
+      return {
+        ...state,
+        data2: action.result
+      };
+    default:
+      return state;
+  }
+}
 
-
+export default reducers;
 ```
