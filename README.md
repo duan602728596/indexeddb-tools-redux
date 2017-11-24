@@ -36,7 +36,7 @@ export const getAction = db.getAction({
   // 参数
   objectStoreName,
   successAction,
-  failActio
+  failAction
 });
 ```
 
