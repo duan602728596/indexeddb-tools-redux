@@ -129,7 +129,7 @@ function reducers(state = {}, action){
     case 'TYPE_2':
       return {
         ...state,
-        data2: action.result
+        data_2: action.result
       };
     default:
       return state;
