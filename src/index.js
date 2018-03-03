@@ -34,10 +34,10 @@ class IndexedDBRedux{
       return (dispatch: Function, getState: Function): Promise=>{
         return new Promise((resolve: Function, reject: Function): void=>{
           IndexedDB(this.name, this.version, {
-            success: function(event: Object): void{
+            success(event: Object): void{
               const _this: any = this;
               const store: any = this.getObjectStore(objectStoreName);
-              store.get(query, function(event: Object): void{
+              store.get(query, function(event: Event): void{
                 // 此处将result作为获取结果
                 const res: Object = {
                   ...arg,
@@ -58,7 +58,7 @@ class IndexedDBRedux{
           }
         });
       };
-    }
+    };
   }
 
   /**
@@ -74,7 +74,7 @@ class IndexedDBRedux{
       return (dispatch: Function, getState: Function): Promise=>{
         return new Promise((resolve: Function, reject: Function): void=>{
           IndexedDB(this.name, this.version, {
-            success: function(event: Object): void{
+            success(event: Event): void{
               const store: any = this.getObjectStore(objectStoreName, true);
               store.add(data);
               if(successAction){
@@ -108,7 +108,7 @@ class IndexedDBRedux{
       return (dispatch: Function, getState: Function): Promise=>{
         return new Promise((resolve: Function, reject: Function): void=>{
           IndexedDB(this.name, this.version, {
-            success: function(event: Object): void{
+            success(event: Event): void{
               const store: any = this.getObjectStore(objectStoreName, true);
               store.put(data);
               if(successAction){
@@ -142,8 +142,8 @@ class IndexedDBRedux{
       return (dispatch: Function, getState: Function): Promise=>{
         return new Promise((resolve: Function, reject: Function): void=>{
           IndexedDB(this.name, this.version, {
-            success: function(event: Object): void{
-              const store = this.getObjectStore(objectStoreName, true);
+            success(event: Event): void{
+              const store: Object = this.getObjectStore(objectStoreName, true);
               store.delete(query);
               if(successAction){
                 dispatch(successAction(arg));
@@ -174,7 +174,7 @@ class IndexedDBRedux{
       return (dispatch: Function, getState: Function): Promise=>{
         return new Promise((resolve: Function, reject: Function): void=>{
           IndexedDB(this.name, this.version, {
-            success: function(event: Object): void{
+            success(event: Event): void{
               const store: any = this.getObjectStore(objectStoreName, true);
               store.clear();
               if(successAction){
@@ -213,11 +213,11 @@ class IndexedDBRedux{
       } = arg.query;
 
       return (dispatch: Function, getState: Function): Promise=>{
-        return new Promise((resolve, reject)=>{
+        return new Promise((resolve: Function, reject: Function): void=>{
           IndexedDB(this.name, this.version, {
-            success: function(event: Object): void{
-              const _this = this;
-              const store = this.getObjectStore(objectStoreName);
+            success(event: Event): void{
+              const _this: this = this;
+              const store: Object = this.getObjectStore(objectStoreName);
               const arg: [string, ?(string | number)] = [indexName];
               if(range) arg.push(range);
 
@@ -242,7 +242,7 @@ class IndexedDBRedux{
               });
             }
           });
-        }).catch((err: any): any=>{
+        }).catch((err: any): void=>{
           console.error(err);
           if(failAction){
             dispatch(failAction(arg));

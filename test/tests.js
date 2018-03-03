@@ -8,6 +8,7 @@ import IndexedDBRedux from '../lib/index';
 import reducers from './reducers';
 import { data1, data2, data3 } from './data';
 
+/* 快速排序 */
 function quickSort(rawArray, key){
   const len = rawArray.length;
   if(len <= 1) return rawArray;
