@@ -69,7 +69,7 @@ class IndexedDBRedux{
   addAction({ objectStoreName, successAction, failAction }: arg): Function{
     return (arg: Object): Function=>{
       // arg.data作为添加数据条件
-      const data: string | number = arg.data;
+      const data: Object | Array = arg.data;
 
       return (dispatch: Function, getState: Function): Promise=>{
         return new Promise((resolve: Function, reject: Function): void=>{
@@ -103,7 +103,7 @@ class IndexedDBRedux{
   putAction({ objectStoreName, successAction, failAction }: arg): Function{
     return (arg: Object): Function=>{
       // arg.data作为更新数据条件
-      const data: string | number = arg.data;
+      const data: Object | Array = arg.data;
 
       return (dispatch: Function, getState: Function): Promise=>{
         return new Promise((resolve: Function, reject: Function): void=>{
