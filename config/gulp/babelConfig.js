@@ -1,7 +1,7 @@
 module.exports = {
   presets: [
     [
-      '@babel/env',
+      '@babel/preset-env',
       {
         targets: {
           ie: 11,
@@ -11,13 +11,9 @@ module.exports = {
         },
         debug: false,
         modules: false,
-        useBuiltIns: false,
-        uglify: false
+        useBuiltIns: false
       }
     ],
-    '@babel/flow'
-  ],
-  plugins: [
-    '@babel/proposal-object-rest-spread'
+    '@babel/preset-flow'
   ]
 };

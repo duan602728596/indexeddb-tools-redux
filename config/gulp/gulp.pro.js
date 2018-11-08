@@ -9,6 +9,8 @@ let lib = null;
 
 /* 编译es6 */
 function babelProject(){
+  console.log(lib);
+
   return gulp.src(js)
     .pipe(babel(babelConfig))
     .pipe(gulp.dest(lib));

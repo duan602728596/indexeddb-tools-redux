@@ -24,19 +24,19 @@
     "start": "npm run cleanlib && cross-env NODE_ENV=development gulp",
     "build": "npm run cleanlib && cross-env NODE_ENV=production gulp",
     "inittest": "mocha init test",
-    "test": "node ./config/test.js",
+    "test-dll": "milktea dll --config=\"./config/test/.sweetrc.js\"",
+    "test": "milktea start --server --config=\"./config/test/.sweetrc.js\"",
     "teststart": "./node_modules/.bin/webpack --config ./config/webpack.config.js --watch",
     "cleanlib": "rimraf lib",
     "eslint": "eslint src",
     "update": "milktea update"
   },
   "dependencies": {
-    "indexeddb-tools": "^2.1.1",
+    "indexeddb-tools": "^2.1.2",
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.5",
-    "@babel/plugin-proposal-decorators": "^7.1.2",
     "@babel/preset-env": "^7.1.5",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
