@@ -15,4 +15,10 @@ src
 test
 config
 gulpfile.js
-.babelrc
+
+# webpack
+.babelCache
+
+.eslintignore
+.eslintrc.yml
+.gitignore

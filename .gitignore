@@ -13,5 +13,5 @@ yarn-error.log
 build
 lib
 
-# test
-test/build
+# webpack
+.babelCache

@@ -1,6 +1,6 @@
 import IndexedDB from 'indexeddb-tools';
 
-type arg = {
+type Arg = {
   objectStoreName: string,
   successAction: Function,
   failAction: Function
@@ -26,7 +26,7 @@ class IndexedDBRedux{
    * @param { Function } successAction: 获取数据成功的Action
    * @param { Function } failAction   : 获取数据失败的Action
    */
-  getAction({ objectStoreName, successAction, failAction }: arg): Function{
+  getAction({ objectStoreName, successAction, failAction }: Arg): Function{
     return (arg: Object): Function=>{
       // arg.query作为查询条件
       const query: string | number = arg.query;
@@ -36,16 +36,19 @@ class IndexedDBRedux{
           IndexedDB(this.name, this.version, {
             success(event: Object): void{
               const _this: any = this;
-              const store: any = this.getObjectStore(objectStoreName);
+              const store: Object = this.getObjectStore(objectStoreName);
+
               store.get(query, function(event: Event): void{
                 // 此处将result作为获取结果
                 const res: Object = {
                   ...arg,
                   result: event.target.result
                 };
+
                 if(successAction){
                   dispatch(successAction(res)); // 会将传递的数据 + result作为结果继续传递下去
                 }
+
                 resolve(res);
                 _this.close();
               });
@@ -53,6 +56,7 @@ class IndexedDBRedux{
           });
         }).catch((err: any): void=>{
           console.error('getAction', err);
+
           if(failAction){
             dispatch(failAction(arg));
           }
@@ -66,7 +70,7 @@ class IndexedDBRedux{
    * @param { Function } successAction: 添加数据成功的Action
    * @param { Function } failAction   : 添加数据失败的Action
    */
-  addAction({ objectStoreName, successAction, failAction }: arg): Function{
+  addAction({ objectStoreName, successAction, failAction }: Arg): Function{
     return (arg: Object): Function=>{
       // arg.data作为添加数据条件
       const data: Object | Array = arg.data;
@@ -75,17 +79,21 @@ class IndexedDBRedux{
         return new Promise((resolve: Function, reject: Function): void=>{
           IndexedDB(this.name, this.version, {
             success(event: Event): void{
-              const store: any = this.getObjectStore(objectStoreName, true);
+              const store: Object = this.getObjectStore(objectStoreName, true);
+
               store.add(data);
+
               if(successAction){
                 dispatch(successAction(arg));
               }
+
               resolve(arg);
               this.close();
             }
           });
         }).catch((err: any): void=>{
           console.error(err);
+
           if(failAction){
             dispatch(failAction(arg));
           }
@@ -100,7 +108,7 @@ class IndexedDBRedux{
    * @param { Function } successAction: 更新数据成功的Action
    * @param { Function } failAction   : 更新数据失败的Action
    */
-  putAction({ objectStoreName, successAction, failAction }: arg): Function{
+  putAction({ objectStoreName, successAction, failAction }: Arg): Function{
     return (arg: Object): Function=>{
       // arg.data作为更新数据条件
       const data: Object | Array = arg.data;
@@ -109,17 +117,21 @@ class IndexedDBRedux{
         return new Promise((resolve: Function, reject: Function): void=>{
           IndexedDB(this.name, this.version, {
             success(event: Event): void{
-              const store: any = this.getObjectStore(objectStoreName, true);
+              const store: Object = this.getObjectStore(objectStoreName, true);
+
               store.put(data);
+
               if(successAction){
                 dispatch(successAction(arg));
               }
+
               resolve(arg);
               this.close();
             }
           });
         }).catch((err: any): void=>{
           console.error(err);
+
           if(failAction){
             dispatch(failAction(arg));
           }
@@ -134,7 +146,7 @@ class IndexedDBRedux{
    * @param { Function } successAction: 删除数据成功的Action
    * @param { Function } failAction   : 删除数据失败的Action
    */
-  deleteAction({ objectStoreName, successAction, failAction }: arg): Function{
+  deleteAction({ objectStoreName, successAction, failAction }: Arg): Function{
     return (arg: Object): Function=>{
       // arg.query作为删除数据条件
       const query: Object = arg.query;
@@ -144,16 +156,20 @@ class IndexedDBRedux{
           IndexedDB(this.name, this.version, {
             success(event: Event): void{
               const store: Object = this.getObjectStore(objectStoreName, true);
+
               store.delete(query);
+
               if(successAction){
                 dispatch(successAction(arg));
               }
+
               resolve(arg);
               this.close();
             }
           });
         }).catch((err: any): void=>{
           console.error(err);
+
           if(failAction){
             dispatch(failAction(arg));
           }
@@ -168,24 +184,27 @@ class IndexedDBRedux{
    * @param { Function } successAction: 删除数据成功的Action
    * @param { Function } failAction   : 删除数据失败的Action
    */
-  clearAction({ objectStoreName, successAction, failAction }: arg): Function{
+  clearAction({ objectStoreName, successAction, failAction }: Arg): Function{
     return (arg: ?Object): Function=>{
-
       return (dispatch: Function, getState: Function): Promise=>{
         return new Promise((resolve: Function, reject: Function): void=>{
           IndexedDB(this.name, this.version, {
             success(event: Event): void{
-              const store: any = this.getObjectStore(objectStoreName, true);
+              const store: Object = this.getObjectStore(objectStoreName, true);
+
               store.clear();
+
               if(successAction){
                 dispatch(successAction(arg));
               }
+
               resolve(arg);
               this.close();
             }
           });
         }).catch((err: any): void=>{
           console.error(err);
+
           if(failAction){
             dispatch(failAction(arg));
           }
@@ -200,7 +219,7 @@ class IndexedDBRedux{
    * @param { Function } successAction: 删除数据成功的Action
    * @param { Function } failAction   : 删除数据失败的Action
    */
-  cursorAction({ objectStoreName, successAction, failAction }: arg): Function{
+  cursorAction({ objectStoreName, successAction, failAction }: Arg): Function{
     return (arg: Object): Function=>{
       /**
        * arg.query作为查询数据条件
@@ -219,11 +238,14 @@ class IndexedDBRedux{
               const _this: this = this;
               const store: Object = this.getObjectStore(objectStoreName);
               const arg: [string, ?(string | number)] = [indexName];
+
               if(range) arg.push(range);
 
               const resArr: Array = [];
+
               store.cursor(...arg, function(event: Object): void{
                 const result: Object = event.target.result;
+
                 if(result){
                   resArr.push(result.value);
                   result.continue();
@@ -233,9 +255,11 @@ class IndexedDBRedux{
                     ...arg,
                     result: resArr
                   };
+
                   if(successAction){
                     dispatch(successAction(res));
                   }
+
                   resolve(res);
                   _this.close();
                 }
@@ -244,6 +268,7 @@ class IndexedDBRedux{
           });
         }).catch((err: any): void=>{
           console.error(err);
+
           if(failAction){
             dispatch(failAction(arg));
           }
