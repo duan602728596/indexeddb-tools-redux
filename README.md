@@ -93,17 +93,17 @@ class Demo extends Component{
     });
 
     this.props.action.addAction({
-      data,    // { Object | Array } 添加的数据
+      data,    // { object | Array<object> } 添加的数据
       ...      // 其他你想要传递的数据
     });
 
     this.props.action.putAction({
-      data,    // { Object | Array } 更新的数据
+      data,    // { object | Array<object> } 更新的数据
       ...      // 其他你想要传递的数据
     });
 
     this.props.action.deleteAction({
-      query,   // { string | number | Array } 删除的数据
+      query,   // { string | number | Array<string | number> } 删除的数据
       ...      // 其他你想要传递的数据
     });
 
